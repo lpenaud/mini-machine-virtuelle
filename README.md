@@ -6,14 +6,15 @@ This project use the visitor design pattern.
 
 ## TODO
 
-- [ ] Addition
-- [ ] Subtraction
-- [ ] Division
-- [ ] Multiplication
-- [ ] Variables (affectation `:=` and readable)
-- [ ] Display numbers (`println`)
+- [x] Addition
+- [x] Subtraction
+- [x] Division
+- [x] Multiplication
+- [x] Variables (affectation `:=` and readable)
+- [x] Display numbers (`println`)
+- [ ] Compilation
 
 ## Credits
 
-* [Loïc Penaud](https://lpenaud.github.io)
+* [LoÃ¯c Penaud](https://lpenaud.github.io)
 * [Maxime Metz](https://github.com/maximemetz)
