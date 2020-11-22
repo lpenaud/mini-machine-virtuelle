@@ -1,7 +1,7 @@
-package edu.ubo.minimachine.expression;
+package edu.ubo.minimachine.main.expression;
 
-import edu.ubo.minimachine.Variable;
-import edu.ubo.minimachine.visitor.Visitor;
+import edu.ubo.minimachine.main.Variable;
+import edu.ubo.minimachine.main.visitor.Visitor;
 
 public class VariableExpression implements UnaryExpression {
 	

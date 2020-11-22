@@ -1,6 +1,6 @@
-package edu.ubo.minimachine.expression;
+package edu.ubo.minimachine.main.expression;
 
-import edu.ubo.minimachine.visitor.Visitor;
+import edu.ubo.minimachine.main.visitor.Visitor;
 
 public class AdditionExpression extends BinaryExpression {
 

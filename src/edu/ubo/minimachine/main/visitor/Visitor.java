@@ -1,8 +1,8 @@
-package edu.ubo.minimachine.visitor;
+package edu.ubo.minimachine.main.visitor;
 
-import edu.ubo.minimachine.expression.*;
-import edu.ubo.minimachine.statement.AssignmentStatement;
-import edu.ubo.minimachine.statement.PrintLnStatement;
+import edu.ubo.minimachine.main.expression.*;
+import edu.ubo.minimachine.main.statement.AssignmentStatement;
+import edu.ubo.minimachine.main.statement.PrintLnStatement;
 
 public interface Visitor {
 	default void visit(IntExpression expression) {

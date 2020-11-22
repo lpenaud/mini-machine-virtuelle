@@ -1,4 +1,4 @@
-package edu.ubo.minimachine.tests.visitor;
+package edu.ubo.minimachine.test.visitor;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,20 +7,17 @@ import java.io.PrintStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import edu.ubo.minimachine.Variable;
-import edu.ubo.minimachine.expression.*;
-import edu.ubo.minimachine.statement.AssignmentStatement;
-import edu.ubo.minimachine.statement.PrintLnStatement;
-import edu.ubo.minimachine.statement.Statement;
-import edu.ubo.minimachine.tests.utils.TestOutputStream;
-import edu.ubo.minimachine.visitor.StackInterpretor;
+import edu.ubo.minimachine.main.Variable;
+import edu.ubo.minimachine.main.expression.*;
+import edu.ubo.minimachine.main.statement.AssignmentStatement;
+import edu.ubo.minimachine.main.statement.PrintLnStatement;
+import edu.ubo.minimachine.main.statement.Statement;
+import edu.ubo.minimachine.main.visitor.StackInterpretor;
+import edu.ubo.minimachine.test.utils.TestOutputStream;
 
 class StackInterpretorTest {
-	StackInterpretor interpretor;
-	TestOutputStream outputStream;
-
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 		outputStream = new TestOutputStream();
 		interpretor = new StackInterpretor(new PrintStream(outputStream));
 	}
@@ -32,8 +29,9 @@ class StackInterpretorTest {
 		assertTrue(interpretor.result() instanceof IntExpression);
 		final IntExpression ie = interpretor.result();
 		assertEquals(1, ie.getValue());
+		assertEquals(1, interpretor.stackSize());
 	}
-	
+
 	@Test
 	void testAddition() {
 		final Expression e1 = new IntExpression(3);
@@ -43,8 +41,9 @@ class StackInterpretorTest {
 		assertTrue(interpretor.result() instanceof IntExpression);
 		final IntExpression ie = interpretor.result();
 		assertEquals(ie.getValue(), 7);
+		assertEquals(1, interpretor.stackSize());
 	}
-	
+
 	@Test
 	void testSubtraction() {
 		final Expression e1 = new IntExpression(5);
@@ -53,8 +52,9 @@ class StackInterpretorTest {
 		subtraction.accept(interpretor);
 		final IntExpression ie = interpretor.result();
 		assertEquals(2, ie.getValue());
+		assertEquals(1, interpretor.stackSize());
 	}
-	
+
 	@Test
 	void testDivision() {
 		final Expression e1 = new IntExpression(8);
@@ -63,8 +63,9 @@ class StackInterpretorTest {
 		division.accept(interpretor);
 		final IntExpression ie = interpretor.result();
 		assertEquals(2, ie.getValue());
+		assertEquals(1, interpretor.stackSize());
 	}
-	
+
 	@Test
 	void testMultiplication() {
 		final Expression e1 = new IntExpression(4);
@@ -73,21 +74,44 @@ class StackInterpretorTest {
 		multiplication.accept(interpretor);
 		final IntExpression ie = interpretor.result();
 		assertEquals(ie.getValue(), 12);
+		assertEquals(1, interpretor.stackSize());
 	}
-	
+
 	@Test
 	void testVariable() {
 		final Variable v1 = new Variable("v1");
-		final AssignmentStatement v1As = new AssignmentStatement(v1, new IntExpression(4));
-		v1As.accept(interpretor);
-		assertEquals(interpretor.result().getValue(), 4);
 		final Variable v2 = new Variable("v2");
-		final AssignmentStatement v2As = new AssignmentStatement(v2, new AdditionExpression(new VariableExpression(v1), new IntExpression(1)));
-		v2As.accept(interpretor);
-		assertEquals(5, interpretor.result().getValue());
-		final Statement printLn = new PrintLnStatement(new AdditionExpression(new VariableExpression(v2), new IntExpression(1)));
-		printLn.accept(interpretor);
-		assertEquals("6", outputStream.toString());
+		newVariable(4, v1, new IntExpression(4));
+		newVariable(5, v2, new AdditionExpression(new VariableExpression(v1), new IntExpression(1)));
 	}
 
+	@Test
+	void testPrintln() {
+		final Variable v1 = new Variable("v1");
+		newVariable(6, v1, new MultiplicationExpression(new IntExpression(2), new IntExpression(3)));
+		printLn("7", new AdditionExpression(new VariableExpression(v1), new IntExpression(1)));
+	}
+
+	protected void newVariable(final int expected, final Variable variable, final Expression value) {
+		final Statement assignment = new AssignmentStatement(variable, value);
+		final Expression actual = new VariableExpression(variable);
+
+		assignment.accept(interpretor);
+		actual.accept(interpretor);
+		assertEquals(expected, interpretor.result().getValue());
+		assertEquals(1, interpretor.stackSize());
+
+		// Clean stack to remove not used value in stack due to the equal test
+		interpretor.cleanStack();
+	}
+
+	protected void printLn(final String expected, final Expression expression) {
+		final Statement printLn = new PrintLnStatement(expression);
+		printLn.accept(interpretor);
+		assertEquals(expected, outputStream.toString());
+		assertEquals(0, interpretor.stackSize());
+	}
+
+	protected StackInterpretor interpretor;
+	protected TestOutputStream outputStream;
 }

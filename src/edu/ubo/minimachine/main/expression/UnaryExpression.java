@@ -1,4 +1,4 @@
-package edu.ubo.minimachine.expression;
+package edu.ubo.minimachine.main.expression;
 
 public interface UnaryExpression extends Expression {
 

@@ -1,8 +1,8 @@
-package edu.ubo.minimachine.statement;
+package edu.ubo.minimachine.main.statement;
 
-import edu.ubo.minimachine.Variable;
-import edu.ubo.minimachine.expression.Expression;
-import edu.ubo.minimachine.visitor.Visitor;
+import edu.ubo.minimachine.main.Variable;
+import edu.ubo.minimachine.main.expression.Expression;
+import edu.ubo.minimachine.main.visitor.Visitor;
 
 public class AssignmentStatement implements Statement {
 	

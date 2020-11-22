@@ -1,4 +1,4 @@
-package edu.ubo.minimachine.tests.utils;
+package edu.ubo.minimachine.test.utils;
 
 import java.io.IOException;
 import java.io.OutputStream;

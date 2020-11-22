@@ -1,4 +1,4 @@
-package edu.ubo.minimachine;
+package edu.ubo.minimachine.main;
 
 public class Variable {
 	
@@ -12,7 +12,7 @@ public class Variable {
 
 	@Override
 	public int hashCode() {
-		return name.hashCode() % super.hashCode();
+		return name.hashCode();
 	}
 
 	@Override

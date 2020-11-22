@@ -1,4 +1,4 @@
-package edu.ubo.minimachine.visitor;
+package edu.ubo.minimachine.main.visitor;
 
 import java.io.PrintStream;
 import java.util.ArrayDeque;
@@ -6,15 +6,15 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.ubo.minimachine.Variable;
-import edu.ubo.minimachine.expression.AdditionExpression;
-import edu.ubo.minimachine.expression.DivisionExpression;
-import edu.ubo.minimachine.expression.IntExpression;
-import edu.ubo.minimachine.expression.MultiplicationExpression;
-import edu.ubo.minimachine.expression.SubtractionExpression;
-import edu.ubo.minimachine.expression.VariableExpression;
-import edu.ubo.minimachine.statement.AssignmentStatement;
-import edu.ubo.minimachine.statement.PrintLnStatement;
+import edu.ubo.minimachine.main.Variable;
+import edu.ubo.minimachine.main.expression.AdditionExpression;
+import edu.ubo.minimachine.main.expression.DivisionExpression;
+import edu.ubo.minimachine.main.expression.IntExpression;
+import edu.ubo.minimachine.main.expression.MultiplicationExpression;
+import edu.ubo.minimachine.main.expression.SubtractionExpression;
+import edu.ubo.minimachine.main.expression.VariableExpression;
+import edu.ubo.minimachine.main.statement.AssignmentStatement;
+import edu.ubo.minimachine.main.statement.PrintLnStatement;
 
 public class StackInterpretor implements Visitor {
 	
@@ -75,7 +75,7 @@ public class StackInterpretor implements Visitor {
 	@Override
 	public void visit(final AssignmentStatement statement) {
 		statement.getRightHand().accept(this);
-		variables.put(statement.getLeftHand(), stack.peek());
+		variables.put(statement.getLeftHand(), stack.pop());
 	}
 	
 	@Override
@@ -86,6 +86,18 @@ public class StackInterpretor implements Visitor {
 	
 	public IntExpression result() {
 		return stack.peek();
+	}
+	
+	public int stackSize() {
+		return stack.size();
+	}
+	
+	/**
+	 * Clean the current stack
+	 * Only for testing purpose
+	 */
+	public void cleanStack() {
+		this.stack.clear();
 	}
 	
 	protected final Deque<IntExpression> stack;
