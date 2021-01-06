@@ -18,6 +18,11 @@ public class VariableExpression implements UnaryExpression {
 		return variable;
 	}
 	
+	@Override
+	public String toString() {
+		return variable.getName();
+	}
+	
 	final Variable variable;
 
 }
